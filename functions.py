@@ -82,7 +82,5 @@ def get_ranking_keywords(url, country="au", api_key=semrush_api_key):
     else:
         return []
 
-results = get_ranking_keywords("https://overdose.digital/")
-print(results)
 
 
