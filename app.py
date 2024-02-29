@@ -1,5 +1,5 @@
 import streamlit as st
-from serpapi
+import serpapi
 import requests
 
 
