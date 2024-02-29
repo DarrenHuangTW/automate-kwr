@@ -12,8 +12,6 @@ semrush_api_key = all_secrets['SEMRUSH_API_KEY']
 # Streamlit Header
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
-# Input field for user to enter search query
-search_query = st.text_input("Enter search query")
 
 
 """
@@ -94,15 +92,17 @@ STREAMLIT CODE BELOW
 """
 
 
+# Input field for user to enter search query
+search_query = st.text_input("Enter search query")
 
 # Button to trigger the search
 if st.button("Search"):
     params = {
-        "engine": "google",
+        "google_domain": "google.com.au",
         "q": search_query,
-        "gl": "us",
+        "gl": "au",
         "hl": "en",
-        "api_key": serpapi_api_key
+        "serpapi_api_key": serpapi_api_key
     }
     
     # Get organic search results based on user input
