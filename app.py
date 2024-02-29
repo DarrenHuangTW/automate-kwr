@@ -1,6 +1,7 @@
 import streamlit as st
 import serpapi
 import requests
+import json
 
 
 
@@ -13,16 +14,6 @@ semrush_api_key = all_secrets['SEMRUSH_API_KEY']
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
 
-
-"""
-Try not using GoogleSearch but a Get request 
-
-such as: 
-https://serpapi.com/search.json?engine=google&q=Coffee&location=Austin%2C+Texas%2C+United+States&google_domain=google.com&gl=au&hl=en&api_key=d0bd2694ef278a85215a9bf2435b9326979a3a12ca35f3f10d1880d0fcc552fa
-https://serpapi.com/search.json?engine=google&q=Coffee&google_domain=google.com.au&gl=au&hl=en&api_key=d0bd2694ef278a85215a9bf2435b9326979a3a12ca35f3f10d1880d0fcc552fa
-
-https://serpapi.com/playground
-"""
 
 def get_organic_results(q, serpapi_api_key=serpapi_api_key, google_domain="google.com.au", gl="au", en="en"):
     """
