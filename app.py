@@ -1,5 +1,12 @@
 import streamlit as st
 
+
+
+all_secrets = st.secrets
+serpapi_api_key = all_secrets['SERPAPI_API_KEY']
+semrush_api_key = all_secrets['SEMRUSH_API_KEY']
+
+
 # Streamlit Header
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
@@ -70,10 +77,6 @@ def get_ranking_keywords(url, country="au", api_key=semrush_api_key):
 STREAMLIT CODE BELOW
 """
 
-
-all_secrets = st.secrets
-serpapi_api_key = all_secrets['SERPAPI_API_KEY']
-semrush_api_key = all_secrets['SEMRUSH_API_KEY']
 
 
 # Button to trigger the search
