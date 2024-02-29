@@ -15,7 +15,15 @@ st.header("Keyword Research Tools - Overdose", divider='rainbow')
 search_query = st.text_input("Enter search query")
 
 
+"""
+Try not using GoogleSearch but a Get request 
 
+such as: 
+https://serpapi.com/search.json?engine=google&q=Coffee&location=Austin%2C+Texas%2C+United+States&google_domain=google.com&gl=au&hl=en&api_key=d0bd2694ef278a85215a9bf2435b9326979a3a12ca35f3f10d1880d0fcc552fa
+https://serpapi.com/search.json?engine=google&q=Coffee&google_domain=google.com.au&gl=au&hl=en&api_key=d0bd2694ef278a85215a9bf2435b9326979a3a12ca35f3f10d1880d0fcc552fa
+
+https://serpapi.com/playground
+"""
 
 def get_organic_results(params):
     """
@@ -27,7 +35,7 @@ def get_organic_results(params):
     Returns:
     list: List of top 3 organic search result links
     """
-    
+
     search = serpapi.GoogleSearch(params)
     results = search.get_dict()
     organic_results = results["organic_results"]
