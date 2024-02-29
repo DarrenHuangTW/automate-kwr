@@ -1,5 +1,5 @@
 import streamlit as st
-from serpapi import GoogleSearch
+import serpapi
 
 
 
@@ -28,7 +28,7 @@ def get_organic_results(params):
     list: List of top 3 organic search result links
     """
     
-    search = GoogleSearch(params)
+    search = serpapi.GoogleSearch(params)
     results = search.get_dict()
     organic_results = results["organic_results"]
 
