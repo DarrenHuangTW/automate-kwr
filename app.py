@@ -1,5 +1,7 @@
 import streamlit as st
-from serpapi import GoogleSearch
+from serpapi
+import requests
+
 
 
 all_secrets = st.secrets
@@ -24,7 +26,7 @@ https://serpapi.com/search.json?engine=google&q=Coffee&google_domain=google.com.
 https://serpapi.com/playground
 """
 
-def get_organic_results(params):
+def get_organic_results(q, serpapi_api_key=serpapi_api_key, google_domain="google.com.au", gl="au", en="en"):
     """
     Function to retrieve organic search results using SerpApi
 
@@ -34,16 +36,22 @@ def get_organic_results(params):
     Returns:
     list: List of top 3 organic search result links
     """
+    
+    url = f'https://serpapi.com/search.json?engine=google&api_key={serpapi_api_key}&q={q}&google_domain={google_domain}&gl={gl}&hl={en}'
 
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    organic_results = results["organic_results"]
+    response = requests.get(url)
 
+    if response.status_code == 200:
+        api_output = response.content
+        output_dict = json.loads(api_output)
+
+    organic_results = output_dict["organic_results"]        
     top_links = []
     for result in organic_results[:3]:
         top_links.append(result['link'])
         
     return top_links
+
 
 def get_ranking_keywords(url, country="au", api_key=semrush_api_key):
     """

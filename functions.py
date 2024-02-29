@@ -2,6 +2,7 @@ import os
 from serpapi import GoogleSearch 
 from dotenv import load_dotenv
 import json
+import requests
 
 
 
@@ -10,16 +11,7 @@ serpapi_api_key = os.getenv('SERPAPI_API_KEY')
 semrush_api_key = os.getenv('SEMRUSH_API_KEY')
 
 
-params = {
-  "engine": "google",
-  "q": "darren huang",
-  "gl": "us",
-  "hl": "en",
-  "api_key": serpapi_api_key
-}
-
-
-def get_organic_results(params):
+def get_organic_results(q, serpapi_api_key=serpapi_api_key, google_domain="google.com.au", gl="au", en="en"):
     """
     Function to retrieve organic search results using SerpApi
 
@@ -30,16 +22,23 @@ def get_organic_results(params):
     list: List of top 3 organic search result links
     """
     
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    organic_results = results["organic_results"]
+    url = f'https://serpapi.com/search.json?engine=google&api_key={serpapi_api_key}&q={q}&google_domain={google_domain}&gl={gl}&hl={en}'
 
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        api_output = response.content
+        output_dict = json.loads(api_output)
+
+    organic_results = output_dict["organic_results"]        
     top_links = []
     for result in organic_results[:3]:
         top_links.append(result['link'])
         
     return top_links
+          
 
+print(get_organic_results("coffee machine"))
 
 # top_three_links = get_organic_results(params)
 # print(top_three_links)
