@@ -38,12 +38,11 @@ def get_organic_results(q, serpapi_api_key=serpapi_api_key, google_domain="googl
     return top_links
           
 
-print(get_organic_results("coffee machine"))
+# print(get_organic_results("rattan furniture"))
 
 # top_three_links = get_organic_results(params)
 # print(top_three_links)
 # ['https://www.darrenhuangmusic.com/', 'https://www.instagram.com/drnhng/', 'https://huangdarren1106.github.io/']
-
 
 
 
@@ -82,4 +81,6 @@ def get_ranking_keywords(url, country="au", api_key=semrush_api_key):
         return []
 
 
-
+url = "https://www.hipvan.com/furniture-all/coffee-tables"
+results = get_ranking_keywords(url) 
+print(results)
