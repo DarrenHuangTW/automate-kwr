@@ -3,7 +3,6 @@ serpapi
 google-search-results
 tldextract
 requests
-json
 collections
 pandas
 
