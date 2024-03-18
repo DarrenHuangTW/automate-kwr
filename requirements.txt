@@ -2,7 +2,8 @@ streamlit
 serpapi
 google-search-results
 tldextract
-requestsjson
+requests
+json
 collections
 pandas
 
