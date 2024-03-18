@@ -1,5 +1,6 @@
 .env
-.strreamlit
+.streamlit
+.gitignore
 functions.py
 test.py
 trial.ipynb
