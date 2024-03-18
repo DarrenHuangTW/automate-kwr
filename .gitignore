@@ -1,2 +1,7 @@
 .env
 .strreamlit
+functions.py
+test.py
+trial.ipynb
+updated_dataframe.csv
+test_df.csv
