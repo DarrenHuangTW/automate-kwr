@@ -115,10 +115,11 @@ def analyze_keywords(keyword_lists):
 
 
 
-st.write("https://urbanmood.sg/")
-st.write("hipvan.com/furniture-all")
-st.write("https://www.islandliving.sg/collections/coffee-side-tables")
-st.write("www.comfortfurniture.com.sg")
+with st.expander("Sample Websites"):
+    st.write("https://urbanmood.sg/")
+    st.write("www.hipvan.com/furniture-all")
+    st.write("https://www.islandliving.sg/collections/coffee-side-tables")
+    st.write("www.comfortfurniture.com.sg")
 
 
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
@@ -256,41 +257,41 @@ if st.button("Let's Go!"):
 
 
 
-
-
-st.write("---")
-st.markdown("## Features to add")
 """
-(Done) Add a column to the DataFrame (df) for the SERP Mockup, referencing the link: https://serpapi.com/searches/f160c4d5e45faf4d/65ef007266d81fd43e26f25a.html.
+# Features to add")
 
-(Done) To save on API calls, use SerpAPI once for each seed keyword to return the first 30 pages and ranking pages from the specified website, rather than using a site-specific search.
+    Implement error handling for situations where API credits for SerpAPI and SEMrush are depleted.
 
-(DONE) Add a column for frequency in the output DataFrame. Options for sorting include: (1) by seed keyword, then by website, or (2) by seed keyword, then by frequency in descending order.
+    Investigate the possibility of tracking API usage for each run.
 
-(DONE) Seed keyword workflow: Identify top-ranking URLs (from specified websites or the top 5) >> Extract common keywords with the highest frequency.
+    Incorporate a password authentication feature, as this application will be public.
 
-(Done) Print output by seed keywords, rather than complete all first then process  
+    (Done) Provide an option for users to opt out of specifying websites, instead automatically take the first 5 ranking URLs in the SERP.
 
-Implement error handling for situations where API credits for SerpAPI and SEMrush are depleted.
+    Notify users when a specific URL does not rank within the top X positions for a seed keyword.
 
-Investigate the possibility of tracking API usage for each run.
+    Alert users when a specific URL lacks ranking data from the SEMRush API.
 
-Incorporate a password authentication feature, as this application will be public.
 
-Provide an option for users to opt out of specifying websites, instead automatically take the first 5 ranking URLs in the SERP.
 
-Notify users when a specific URL does not rank within the top X positions for a seed keyword.
+    check grammar
 
-Alert users when a specific URL lacks ranking data from the SEMRush API.
+    provide overview and guidance
+    
+    (done) Add index
 
-(done) Add index
+    (done) KW Frequency
+    
+    (done) second most frequent keywords
+    
+    (Done) Add a column to the DataFrame (df) for the SERP Mockup, referencing the link: https://serpapi.com/searches/f160c4d5e45faf4d/65ef007266d81fd43e26f25a.html.
 
-(done) KW Frequency
+    (Done) To save on API calls, use SerpAPI once for each seed keyword to return the first 30 pages and ranking pages from the specified website, rather than using a site-specific search.
 
-(done) second most frequent keywords
+    (DONE) Add a column for frequency in the output DataFrame. Options for sorting include: (1) by seed keyword, then by website, or (2) by seed keyword, then by frequency in descending order.
 
-check grammar
+    (DONE) Seed keyword workflow: Identify top-ranking URLs (from specified websites or the top 5) >> Extract common keywords with the highest frequency.
 
-provide overview and guidance
+    (Done) Print output by seed keywords, rather than complete all first then process  
 
 """
