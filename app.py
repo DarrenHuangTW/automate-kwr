@@ -139,9 +139,7 @@ keywords = [keyword.strip() for keyword in keywords_list.split('\n')]
 
 
 # Targeting Websites
-st.markdown("## Targeting Websites")
-option = st.selectbox("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=None, placeholder="Select targeting websites...")
-
+option = st.radio("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=0)
 if option == "Proceed with specific websites":
     websites = []
     websites_list = st.text_area("Enter a list of websites (one website per line, up to 5)").strip()
