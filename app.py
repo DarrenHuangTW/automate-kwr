@@ -139,6 +139,7 @@ keywords = [keyword.strip() for keyword in keywords_list.split('\n')]
 
 
 # Targeting Websites
+st.markdown("## Targeting Websites")
 option = st.radio("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=0)
 if option == "Proceed with specific websites":
     websites = []
@@ -255,41 +256,39 @@ if st.button("Let's Go!"):
 
 
 
-"""
-Features to add
+# Features to add
 
-Implement error handling for situations where API credits for SerpAPI and SEMrush are depleted.
+# Implement error handling for situations where API credits for SerpAPI and SEMrush are depleted.
 
-Investigate the possibility of tracking API usage for each run.
+# Investigate the possibility of tracking API usage for each run.
 
-Incorporate a password authentication feature, as this application will be public.
+# Incorporate a password authentication feature, as this application will be public.
 
-(Done) Provide an option for users to opt out of specifying websites, instead automatically take the first 5 ranking URLs in the SERP.
+# (Done) Provide an option for users to opt out of specifying websites, instead automatically take the first 5 ranking URLs in the SERP.
 
-Notify users when a specific URL does not rank within the top X positions for a seed keyword.
+# Notify users when a specific URL does not rank within the top X positions for a seed keyword.
 
-Alert users when a specific URL lacks ranking data from the SEMRush API.
-
+# Alert users when a specific URL lacks ranking data from the SEMRush API.
 
 
-check grammar
 
-provide overview and guidance
+# check grammar
 
-(done) Add index
+# provide overview and guidance
 
-(done) KW Frequency
+# (done) Add index
 
-(done) second most frequent keywords
+# (done) KW Frequency
 
-(Done) Add a column to the DataFrame (df) for the SERP Mockup, referencing the link: https://serpapi.com/searches/f160c4d5e45faf4d/65ef007266d81fd43e26f25a.html.
+# (done) second most frequent keywords
 
-(Done) To save on API calls, use SerpAPI once for each seed keyword to return the first 30 pages and ranking pages from the specified website, rather than using a site-specific search.
+# (Done) Add a column to the DataFrame (df) for the SERP Mockup, referencing the link: https://serpapi.com/searches/f160c4d5e45faf4d/65ef007266d81fd43e26f25a.html.
 
-(DONE) Add a column for frequency in the output DataFrame. Options for sorting include: (1) by seed keyword, then by website, or (2) by seed keyword, then by frequency in descending order.
+# (Done) To save on API calls, use SerpAPI once for each seed keyword to return the first 30 pages and ranking pages from the specified website, rather than using a site-specific search.
 
-(DONE) Seed keyword workflow: Identify top-ranking URLs (from specified websites or the top 5) >> Extract common keywords with the highest frequency.
+# (DONE) Add a column for frequency in the output DataFrame. Options for sorting include: (1) by seed keyword, then by website, or (2) by seed keyword, then by frequency in descending order.
 
-(Done) Print output by seed keywords, rather than complete all first then process  
+# (DONE) Seed keyword workflow: Identify top-ranking URLs (from specified websites or the top 5) >> Extract common keywords with the highest frequency.
 
-"""
+# (Done) Print output by seed keywords, rather than complete all first then process  
+
