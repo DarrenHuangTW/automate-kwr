@@ -154,7 +154,7 @@ else:
 if st.button("Let's Go!"):
 
 
-    st.markdown("## Top ranking page of each domain for each keyword")
+    st.markdown("## Top ranking pages and commonly ranked keywords")
 
     i = 1
     for seed_keyword in keywords:
@@ -242,7 +242,7 @@ if st.button("Let's Go!"):
 
         top_keywords_output = top_keywords[top_keywords['Frequency'].isin([highest_freq, second_highest_freq])].sort_values(by=['Frequency', 'Search Volume'], ascending=[False, False]).drop_duplicates(subset=['Keyword'])
         
-        st.markdown(f"#### Most Frequent & 2cd Most Frequent Keywords:")                   
+        st.markdown(f"#### Most Frequent & 2nd Most Frequent Keywords:")                   
         st.write(top_keywords_output[['Seed Keyword', 'Keyword', 'Frequency', 'Search Volume', 'CPC', 'Competition']])
         
         with st.expander(f"### Raw Data: {seed_keyword}"):
