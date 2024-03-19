@@ -116,6 +116,7 @@ def analyze_keywords(keyword_lists):
 
 
 with st.expander("Sample Websites"):
+    st.write("search for keywords such as 'coffee table'")
     st.write("https://urbanmood.sg/")
     st.write("www.hipvan.com/furniture-all")
     st.write("https://www.islandliving.sg/collections/coffee-side-tables")
