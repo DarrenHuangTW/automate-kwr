@@ -33,11 +33,7 @@ def get_organic_results(params):
     hl = params.get('hl', 'en')
 
     url = f'https://serpapi.com/search.json?engine=google&api_key={serpapi_api_key}&q={q}&google_domain={google_domain}&gl={gl}&hl={hl}&num=30'
-    
-    #qa
-    print(url)
     response = requests.get(url)
-
 
     output_dict = {}
     
@@ -115,146 +111,204 @@ def analyze_keywords(keyword_lists):
 
 
 
-with st.expander("Inputs to try"):
-    st.write("Keywords: coffee table")
-    st.write("Websites:")
-    st.write("https://urbanmood.sg/")
-    st.write("www.hipvan.com/furniture-all")
-    st.write("https://www.islandliving.sg/collections/coffee-side-tables")
-    st.write("www.comfortfurniture.com.sg")
+# with st.expander("Inputs to try"):
+#     st.write("Keywords: coffee table")
+#     st.write("Websites:")
+#     st.write("https://urbanmood.sg/")
+#     st.write("www.hipvan.com/furniture-all")
+#     st.write("https://www.islandliving.sg/collections/coffee-side-tables")
+#     st.write("www.comfortfurniture.com.sg")
 
 
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
 # Configurations
 st.sidebar.subheader("Configurations")
-country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us"], index=0)
-language = st.sidebar.text_input("Enter language", value="en")
-google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "google.com.au", "google.com.nz", "google.com"], index=0)
+country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us", "tw"], index=0)
+language = st.sidebar.selectbox("Enter language", ["en", "zh-tw"], index=0)
+google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "google.com.au", "google.com.nz", "google.com", "google.com.tw"], index=0)
 
-# Keywords
-st.markdown("## Keywords")
-keywords_list = st.text_area("Enter a list of keywords (one keyword per line, up to 10 keywords)").strip()
-if keywords_list and keywords_list.count('\n') > 10:
-    st.error("Please provide no more than 10 keywords.")
-keywords = [keyword.strip() for keyword in keywords_list.split('\n')]
+st.sidebar.subheader("SerpApi API Key:")
+serpapi_api_key = st.sidebar.text_input("Enter your SerpApi API Key")
 
+account_url = f"https://serpapi.com/account?api_key={serpapi_api_key}"
+response = requests.get(account_url)
+account_details = response.json()
 
-# Targeting Websites
-st.markdown("## Targeting Websites")
-option = st.radio("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=0)
-if option == "Proceed with specific websites":
-    websites = []
-    websites_list = st.text_area("Enter a list of websites (one website per line, up to 5)").strip()
-    websites = [tldextract.extract(website.strip()).fqdn for website in websites_list.split('\n') if website]
+if serpapi_api_key:
+    st.sidebar.write(f"Plan Name: {account_details['plan_name']}")
+    st.sidebar.write(f"Total Searches Left: {account_details['total_searches_left']}")
 else:
-    websites = []
+    st.sidebar.error("API key is required.")
 
 
-# Initialization
-if st.button("Let's Go!"):
+tab1, tab2 = st.tabs(["App", "FAQ"])
 
 
-    st.markdown("## Top ranking pages and commonly ranked keywords")
-
-    i = 1
-    for seed_keyword in keywords:
-
-        st.markdown(f"#### {i}. Seed Keyword: {seed_keyword}")
-
-        params = {
-            "serpapi_api_key": serpapi_api_key,
-            "q": seed_keyword,
-            "google_domain": google_domain,
-            "gl": country,
-            "hl": language
-        }
-
-        # Get SERP data from SerpAPI and return target_urls to look up
-        results = get_organic_results(params)
-
-        if not websites:
-            target_urls = results.loc[results['Position'].isin([1, 2, 3, 4, 5]), ['Website', 'Ranking URL', 'Position', 'HTML']].values.tolist()
-        else:
-            target_urls = []
-            for website in websites:
-                website_data = results.loc[results['Website'] == website, ['Website', 'Ranking URL', 'Position', 'HTML']].drop_duplicates(subset='Website').values.tolist()
-                if not website_data:
-                    target_urls.append([website, None, '30+', results.loc[0, 'HTML']])
-                else:
-                    target_urls.extend(website_data)
-        
-        st.markdown(f"#### Target URLs:")
-        st.write(f"SERP mockup: {target_urls[0][-1]}")
-        
-        target_urls_df = pd.DataFrame(target_urls, columns=['Website', 'Ranking URL', 'Position', 'HTML'])
-        target_urls_df = pd.DataFrame(target_urls_df, columns=['Website', 'Ranking URL', 'Position'])
-
-        st.write(target_urls_df)
-        
+# App
+with tab1:
+    # Keywords
+    st.markdown("## Keywords")
+    keywords_list = st.text_area("Enter a list of keywords (one keyword per line, up to 10 keywords)").strip()
+    if keywords_list and keywords_list.count('\n') > 10:
+        st.error("Please provide no more than 10 keywords.")
+    keywords = [keyword.strip() for keyword in keywords_list.split('\n')]
 
 
+    # Targeting Websites
+    st.markdown("## Targeting Websites")
+    option = st.radio("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=0)
+    if option == "Proceed with specific websites":
+        websites = []
+        websites_list = st.text_area("Enter a list of websites (one website per line, up to 5)").strip()
+        websites = [tldextract.extract(website.strip()).fqdn for website in websites_list.split('\n') if website]
+    else:
+        websites = []
 
-        # Get Keywords data from SEMrush API
-        output_data = []  
-        for website, ranking_url, position, html in target_urls:
 
-            
-            keywords = get_ranking_keywords(ranking_url, country=country, api_key=semrush_api_key)
+    # Initialization
+    if st.button("Let's Go!"):
 
-            if position == '30+':
-                output_data.append({"Seed Keyword": seed_keyword, 
-                                    "Website": website, 
-                                    "Top Ranking URL": "N/A", 
-                                    "HTML": html,
-                                    "Keyword": "N/A",
-                                    "Position": position,
-                                    "Search Volume": 0,
-                                    "CPC": "N/A", 
-                                    "Competition": "N/A"
-                                    })
+
+        st.markdown("## Top ranking pages and commonly ranked keywords")
+
+        i = 1
+        for seed_keyword in keywords:
+
+            st.markdown(f"#### {i}. Seed Keyword: {seed_keyword}")
+
+            params = {
+                "serpapi_api_key": serpapi_api_key,
+                "q": seed_keyword,
+                "google_domain": google_domain,
+                "gl": country,
+                "hl": language
+            }
+
+            # Get SERP data from SerpAPI and return target_urls to look up
+            results = get_organic_results(params)
+
+            if not websites:
+                target_urls = results.loc[results['Position'].isin([1, 2, 3, 4, 5]), ['Website', 'Ranking URL', 'Position', 'HTML']].values.tolist()
             else:
-                for keyword in keywords:
-                    if int(keyword['Position']) <= 20:
-                        output_data.append({"Seed Keyword": seed_keyword, 
-                                            "Website": website, 
-                                            "Top Ranking URL": ranking_url, 
-                                            "HTML": html,
-                                            "Keyword": keyword['Keyword'],
-                                            "Position": keyword['Position'],
-                                            "Search Volume": keyword['Search Volume'],
-                                            "CPC": keyword['CPC'], 
-                                            "Competition": keyword['Competition']
-                                            })
+                target_urls = []
+                for website in websites:
+                    website_data = results.loc[results['Website'] == website, ['Website', 'Ranking URL', 'Position', 'HTML']].drop_duplicates(subset='Website').values.tolist()
+                    if not website_data:
+                        target_urls.append([website, None, '30+', results.loc[0, 'HTML']])
+                    else:
+                        target_urls.extend(website_data)
             
-        output_data_df = pd.DataFrame(output_data)
+            st.markdown(f"#### Target URLs:")
+            st.write(f"SERP mockup: {target_urls[0][-1]}")
+            
+            target_urls_df = pd.DataFrame(target_urls, columns=['Website', 'Ranking URL', 'Position', 'HTML'])
+            target_urls_df = pd.DataFrame(target_urls_df, columns=['Website', 'Ranking URL', 'Position'])
+
+            st.write(target_urls_df)
+            
+
+
+
+            # Get Keywords data from SEMrush API
+            output_data = []  
+            for website, ranking_url, position, html in target_urls:
+
                 
-        keyword_frequency = output_data_df.groupby(['Seed Keyword', 'Keyword']).size().reset_index(name='Frequency')
-        keyword_frequency = keyword_frequency[['Seed Keyword', 'Keyword', 'Frequency']]
-        df_merged = pd.merge(output_data_df, keyword_frequency, on=['Seed Keyword', 'Keyword'], how='left')
-        df_merged = df_merged[['Seed Keyword', 'Website', 'Top Ranking URL', 'Keyword', 'Frequency', 'Position', 'Search Volume', 'CPC', 'Competition']]
+                keywords = get_ranking_keywords(ranking_url, country=country, api_key=semrush_api_key)
 
+                if position == '30+':
+                    output_data.append({"Seed Keyword": seed_keyword, 
+                                        "Website": website, 
+                                        "Top Ranking URL": "N/A", 
+                                        "HTML": html,
+                                        "Keyword": "N/A",
+                                        "Position": position,
+                                        "Search Volume": 0,
+                                        "CPC": "N/A", 
+                                        "Competition": "N/A"
+                                        })
+                else:
+                    for keyword in keywords:
+                        if int(keyword['Position']) <= 20:
+                            output_data.append({"Seed Keyword": seed_keyword, 
+                                                "Website": website, 
+                                                "Top Ranking URL": ranking_url, 
+                                                "HTML": html,
+                                                "Keyword": keyword['Keyword'],
+                                                "Position": keyword['Position'],
+                                                "Search Volume": keyword['Search Volume'],
+                                                "CPC": keyword['CPC'], 
+                                                "Competition": keyword['Competition']
+                                                })
+                
+            output_data_df = pd.DataFrame(output_data)
+                    
+            keyword_frequency = output_data_df.groupby(['Seed Keyword', 'Keyword']).size().reset_index(name='Frequency')
+            keyword_frequency = keyword_frequency[['Seed Keyword', 'Keyword', 'Frequency']]
+            df_merged = pd.merge(output_data_df, keyword_frequency, on=['Seed Keyword', 'Keyword'], how='left')
+            df_merged = df_merged[['Seed Keyword', 'Website', 'Top Ranking URL', 'Keyword', 'Frequency', 'Position', 'Search Volume', 'CPC', 'Competition']]
+
+            
+            top_keywords = df_merged.loc[df_merged['Seed Keyword'] == seed_keyword].sort_values(by='Frequency', ascending=False)
+            top_keywords['Search Volume'] = top_keywords['Search Volume'].astype(int)
+
+            highest_freq = top_keywords['Frequency'].max()
+            second_highest_freq = top_keywords[top_keywords['Frequency'] < highest_freq]['Frequency'].max()
+
+            top_keywords_output = top_keywords[top_keywords['Frequency'].isin([highest_freq, second_highest_freq])].sort_values(by=['Frequency', 'Search Volume'], ascending=[False, False]).drop_duplicates(subset=['Keyword'])
+            
+            st.markdown(f"#### Most Frequent & 2nd Most Frequent Keywords:")                   
+            st.write(top_keywords_output[['Seed Keyword', 'Keyword', 'Frequency', 'Search Volume', 'CPC', 'Competition']])
+            
+            with st.expander(f"### Raw Data: {seed_keyword}"):
+                st.write(df_merged)
+            
+            i += 1
+
+            st.write("---")
+
+
+
+# FAQ
+with tab2:
+    st.header("FAQ")
+
+    with st.expander("Q1: Curious about what this tool can do for you?"):
+        st.write("This tool facilitates keyword research by analyzing competitor websites. It identifies common keywords they use to achieve high search engine rankings.")
+
+    with st.expander("Q2: How do I decide between 'specific websites' and 'top 5 ranking URLs'?"):
+        st.markdown("""
+        - **Specific websites**: Perfect when you’ve got your eye on certain SEO superstars you want to learn from, ex: top SEO players in the industry.
+        - **Top 5 ranking URLs**: Ideal if you’re letting curiosity lead and want to see who tops the charts for a keyword. The downside is that you may not get meaningful data if the top 5 results contain a mixed bag results of different page types - Wikipedia, dictionary, YouTube, article, e-commerce website, etc.
+        """)
         
-        top_keywords = df_merged.loc[df_merged['Seed Keyword'] == seed_keyword].sort_values(by='Frequency', ascending=False)
-        top_keywords['Search Volume'] = top_keywords['Search Volume'].astype(int)
+    with st.expander("Q3: How do the settings for 'country', 'language', and 'Google domain' influence my results?"):
+        st.write("These settings specify the searcher's conditions, including their location, language, and the Google domain they use, affecting the search results.")
 
-        highest_freq = top_keywords['Frequency'].max()
-        second_highest_freq = top_keywords[top_keywords['Frequency'] < highest_freq]['Frequency'].max()
+    with st.expander("Q4: What are SerpApi and SEMrush, and why are API keys necessary?"):
+        st.write("SerpApi fetches search engine results, while SEMrush provides keyword data. API keys are essential for linking your accounts to these services. Obtain a free SerpApi API Key by signing up at https://serpapi.com/ to receive 100 free searches monthly, no credit card required. The SEMrush API uses the shared OD API with our SEMrush account.")
 
-        top_keywords_output = top_keywords[top_keywords['Frequency'].isin([highest_freq, second_highest_freq])].sort_values(by=['Frequency', 'Search Volume'], ascending=[False, False]).drop_duplicates(subset=['Keyword'])
-        
-        st.markdown(f"#### Most Frequent & 2nd Most Frequent Keywords:")                   
-        st.write(top_keywords_output[['Seed Keyword', 'Keyword', 'Frequency', 'Search Volume', 'CPC', 'Competition']])
-        
-        with st.expander(f"### Raw Data: {seed_keyword}"):
-            st.write(df_merged)
-        
-        i += 1
+    with st.expander("Q5: What kind of data is returned?"):
+        st.markdown("This tool leverages SerpApi to retrieve live data for the ranking URLs of keywords and SEMrush for the ranking of keywords on URLs. It considers a keyword's ranking only if it's 30 or lower, as rankings above 30 are considered to have minimal value. For this reason, the tool exclusively includes keywords where a webpage's position is 30 or lower.")
+    
+    with st.expander("Q6: What does the 'Frequency' column in the output data mean?"):
+        st.write("The 'Frequency' column indicates the occurrence rate of a specific keyword across analyzed websites, highlighting its potential significance. It serves as the 'intersect' in our keyword research process. By default, the output displays the most and second most frequent keywords to minimize noise from branded keywords unique to certain websites. Expand the 'Raw Data' section to view and download all keywords ranked by each analyzed website.")
 
-        st.write("---")
+    with st.expander("Q7: Feeling lazy and want to grasp a list of seed keywords for a client website to start with?"):
+        st.markdown("Sure, we've got you covered! Check out this [Google Colab script](https://colab.research.google.com/drive/1FVRA8fnls2VPUTlHiQ4x6pAOIxYjvcWo) that can magically pull out menu items to use as seed keywords.")
 
-        
+    with st.expander("Q8: With so many keyword tools out there, why should I pick this one?"):
+        st.write("Great question! This little project is all about making things easier. It cuts right to the chase, giving you the relevant terms without the usual fuss of sifting through the noise. Plus, it's smart enough to skip over those pesky branded terms that can clutter your results.")
 
+    with st.expander("Q9: Is there a downside to this shortcut to keyword research?"):
+        st.write("While it's convenient, don't forget the old-school charm of diving deep into keyword research to gain a comprehensive understanding of the client's industry. Please ensure to dedicate time to exploring in order to truly understand the lay of the land.")
+
+    with st.expander("Q10: Found a bug?"):
+        st.write("Please holler at Darren Huang over on Slack. It's super helpful if you include a screenshot and jot down the steps that led to the hiccup.")
+
+    with st.expander("Q11: Got a spark of inspiration or feedback to share?"):
+        st.write("I'd love to hear that! I'd love to hear that! Although I created it, the original idea was inspired by Daniel Hogben. Just send your thoughts over to Darren through Slack, and I'll be happy to chat!")
 
 
 
