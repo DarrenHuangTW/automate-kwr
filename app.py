@@ -131,6 +131,7 @@ google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "
 st.sidebar.subheader("SerpApi API Key:")
 serpapi_api_key = st.sidebar.text_input("Enter your SerpApi API Key")
 
+
 account_url = f"https://serpapi.com/account?api_key={serpapi_api_key}"
 response = requests.get(account_url)
 account_details = response.json()
@@ -142,8 +143,10 @@ else:
     st.sidebar.error("API key is required.")
 
 
-tab1, tab2 = st.tabs(["App", "FAQ"])
+st.sidebar.caption("Enjoy using this API key during the grace period!")
+st.sidebar.caption("783e584e5945e13bc2d42966d9d38ca9fc3a7ed81c9e01ff3df15d8cdc130234")
 
+tab1, tab2 = st.tabs(["App", "FAQ"])
 
 # App
 with tab1:
@@ -267,8 +270,6 @@ with tab1:
             i += 1
 
             st.write("---")
-
-
 
 # FAQ
 with tab2:
