@@ -128,6 +128,7 @@ country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us", "tw"],
 language = st.sidebar.selectbox("Enter language", ["en", "zh-tw"], index=0)
 google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "google.com.au", "google.com.nz", "google.com", "google.com.tw"], index=0)
 
+st.sidebar.divider()
 st.sidebar.subheader("SerpApi API Key:")
 serpapi_api_key = st.sidebar.text_input("Enter your SerpApi API Key")
 
