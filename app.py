@@ -6,11 +6,12 @@ import tldextract
 import time
 import collections
 import pandas as pd
+from PIL import Image
 
 
 
 all_secrets = st.secrets
-serpapi_api_key = all_secrets['SERPAPI_API_KEY']
+# serpapi_api_key = all_secrets['SERPAPI_API_KEY']
 semrush_api_key = all_secrets['SEMRUSH_API_KEY']
 
 
@@ -122,6 +123,19 @@ def analyze_keywords(keyword_lists):
 
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
+print(4)
+kwr_input = Image.open('kwr_input.png')
+print(5)
+kwr_output = Image.open('kwr_output.png')
+print(6)
+with st.expander("How it works"):
+    st.write("Input example")
+    st.image(kwr_input)
+    st.divider()
+    st.write("Output example")
+    st.image(kwr_output)
+
+
 # Configurations
 st.sidebar.subheader("Configurations")
 country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us", "tw"], index=0)
@@ -144,7 +158,7 @@ else:
     st.sidebar.error("API key is required.")
 
 
-st.sidebar.caption("Enjoy using this API key during the grace period!")
+st.sidebar.caption("Enjoy using this API key before it runs out. If you find it useful, sign up for a free account at serpapi.com to receive 100 credits!")
 st.sidebar.caption("783e584e5945e13bc2d42966d9d38ca9fc3a7ed81c9e01ff3df15d8cdc130234")
 
 tab1, tab2 = st.tabs(["App", "FAQ"])
@@ -307,7 +321,7 @@ with tab2:
         st.write("While it's convenient, don't forget the old-school charm of diving deep into keyword research to gain a comprehensive understanding of the client's industry. Please ensure to dedicate time to exploring in order to truly understand the lay of the land.")
 
     with st.expander("Q10: Found a bug?"):
-        st.write("Please holler at Darren Huang over on Slack. It's super helpful if you include a screenshot and jot down the steps that led to the hiccup.")
+        st.write("Please reach out to Darren Huang over on Slack. It's super helpful if you include a screenshot and jot down the steps that led to the hiccup.")
 
     with st.expander("Q11: Got a spark of inspiration or feedback to share?"):
         st.write("I'd love to hear that! I'd love to hear that! Although I created it, the original idea was inspired by Daniel Hogben. Just send your thoughts over to Darren through Slack, and I'll be happy to chat!")
