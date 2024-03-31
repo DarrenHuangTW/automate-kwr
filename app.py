@@ -123,17 +123,26 @@ def analyze_keywords(keyword_lists):
 
 st.header("Keyword Research Tools - Overdose", divider='rainbow')
 
-print(4)
 kwr_input = Image.open('kwr_input.png')
-print(5)
 kwr_output = Image.open('kwr_output.png')
-print(6)
+semrush_image = Image.open('semrush.png')
+serpapi_image = Image.open('serpapi.png')
+
 with st.expander("How it works"):
-    st.write("Input example")
+    st.markdown("### Inputs")
     st.image(kwr_input)
     st.divider()
-    st.write("Output example")
+    st.markdown("### Outputs")
     st.image(kwr_output)
+
+with st.expander("Can I trust the data"):
+    st.markdown("### Ranking data")
+    st.markdown("**Ranking data come from SerpApi. It searches the keyword with your configurations and returns the top 30 results.**")
+    st.image(serpapi_image)
+    st.divider()
+    st.markdown("### Keyword Data:")
+    st.markdown("**keyword data comes from SEMrush's database. You can find the raw data in the output.**")
+    st.image(semrush_image)
 
 
 # Configurations
