@@ -138,9 +138,9 @@ with st.expander("How it works"):
 
 # Configurations
 st.sidebar.subheader("Configurations")
-country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us", "tw"], index=0)
+country = st.sidebar.selectbox("Select country", ["sg", "au", "nz", "us", "tw", "ph"], index=0)
 language = st.sidebar.selectbox("Enter language", ["en", "zh-tw"], index=0)
-google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "google.com.au", "google.com.nz", "google.com", "google.com.tw"], index=0)
+google_domain = st.sidebar.selectbox("Select Google domain", ["google.com.sg", "google.com.au", "google.com.nz", "google.com", "google.com.tw", "google.com.ph"], index=0)
 
 st.sidebar.divider()
 st.sidebar.subheader("SerpApi API Key:")
