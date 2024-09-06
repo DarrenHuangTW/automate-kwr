@@ -184,7 +184,7 @@ with tab1:
 
     # Targeting Websites
     st.markdown("## Targeting Websites")
-    option = st.radio("Select an option", ("Proceed with specific websites", "Proceed with top 5 ranking URLs"), index=0)
+    option = st.radio("Select an option", ("Proceed with top 5 ranking URLs", "Proceed with specific websites"), index=0)
     if option == "Proceed with specific websites":
         websites = []
         websites_list = st.text_area("Enter a list of websites (one website per line, up to 5)").strip()
@@ -241,7 +241,8 @@ with tab1:
             output_data = []  
             for website, ranking_url, position, html in target_urls:
 
-                
+                if '?srsltid=' in ranking_url:
+                    ranking_url = ranking_url.split('?srsltid=')[0]
                 keywords = get_ranking_keywords(ranking_url, country=country, api_key=semrush_api_key)
 
                 if position == '30+':
